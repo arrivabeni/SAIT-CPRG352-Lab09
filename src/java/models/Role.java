@@ -5,21 +5,21 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     private int roleId;
-    private int roleName;
+    private String roleName;
 
     public Role() {
     }
 
-    public Role(int roleId, int roleName) {
+    public Role(int roleId, String roleName) {
         this.roleId = roleId;
         this.roleName = roleName;
     }
 
-    public int getRoleName() {
+    public String getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(int roleName) {
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
