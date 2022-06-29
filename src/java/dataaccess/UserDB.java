@@ -16,7 +16,7 @@ public class UserDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT u.email, u.active, u.first_name, u.last_name, u.password, u.role, r.role_name FROM user u INNER JOIN role r ON r.role_id = u.role";
 
         try {
             ps = con.prepareStatement(sql);
@@ -28,7 +28,8 @@ public class UserDB {
                 String lastName = rs.getString(4);
                 String password = rs.getString(5);
                 int role = rs.getInt(6);
-                User user = new User(email, active, firstName, lastName, password, role);
+                String roleName = rs.getString(7);
+                User user = new User(email, active, firstName, lastName, password, role, roleName);
                 users.add(user);
             }
         } finally {
@@ -60,7 +61,8 @@ public class UserDB {
                 String lastName = rs.getString(4);
                 String password = rs.getString(5);
                 int role = rs.getInt(6);
-                user = new User(email, active, firstName, lastName, password, role);
+                String roleName = rs.getString(7);
+                user = new User(email, active, firstName, lastName, password, role, roleName);
             }
         } finally {
             DBUtil.closeResultSet(rs);
