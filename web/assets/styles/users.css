@@ -31,17 +31,17 @@ html{box-sizing: border-box;}*{box-sizing: inherit;}
     header {
         margin-bottom: 35px;
     }
-    
+
     main table {
         margin: auto;
         border: 1px solid lightgray;
     }
-    
+
     main table td, th {
         margin: auto;
         border: 1px solid lightgray;
     }
-    
+
     main table td {
         text-align: center;
         min-width: 110px;
@@ -54,9 +54,64 @@ html{box-sizing: border-box;}*{box-sizing: inherit;}
     .fa-check {
         color: green;
     }
-    
+
     .fa-xmark {
         color: red;
     }
 
+    .fa-face-frown {
+        color: red;
+    }
+    
+    .fa-solid {
+        color: black;
+    }
+    
+    .icon-btn {
+        background-color: ghostwhite;
+        border: 0px;
+    }
+    
+    #message {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #87CEFA;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        border-radius: 15px;
+    }
+
+    #message.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        animation: fadein 0.5s, fadeout 0.5s 4.5s;
+    }
+
+    /*Animations to fade the snackbar in and out*/
+    @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+
+    @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
 }

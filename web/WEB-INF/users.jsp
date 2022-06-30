@@ -24,23 +24,54 @@
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                <c:forEach items="${users}" var="user">
+                <c:forEach items="${users}" var="u">
                     <tr>
-                        <td>${user.getEmail()}</td>
-                        <td>${user.getFirstName()}</td>
-                        <td>${user.getLastName()}</td>
-                        <td class="password">${user.getPassword()}</td>
-                        <td>${user.getRoleName()}</td>
+                        <td>${u.getEmail()}</td>
+                        <td>${u.getFirstName()}</td>
+                        <td>${u.getLastName()}</td>
+                        <td class="password">${u.getPassword()}</td>
+                        <td>${u.getRoleName()}</td>
                         <td><i class='fa-solid <c:choose>
-                                   <c:when test="${user.isActive()}">fa-check</c:when>
+                                   <c:when test="${u.isActive()}">fa-check</c:when>
                                    <c:otherwise>fa-xmark</c:otherwise>
                                </c:choose>'>
                             </i></td>
-                        <td><i class="fa-solid fa-pen-to-square"></i></td>
-                        <td><i class="fa-solid fa-trash-can"></i></td>
+                        <td>
+                            <a href='<c:url value="">
+                                        <c:param name="action" value="view"/>
+                                        <c:param name="email" value="${u.getEmail()}"/>
+                                    </c:url>'>
+                                <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <form method="POST" action="">
+                                <button type="submit" class="icon-btn">
+                                    <i class="fa-solid fa-trash-can fa-lg"></i>
+                                </button>
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="email" value="${u.getEmail()}">
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
+            <p>${user.getEmail()}</p>
         </main>
+
+        <form id="deleteForm" method="POST" action="">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="emailToDelete" id="emailToDelete" value="">
+        </form>
+
+        <div id="message">
+            <c:if test="${message eq 'create'}">User created</c:if>
+            <c:if test="${message eq 'update'}">User updated</c:if>
+            <c:if test="${message eq 'delete'}">User deleted</c:if>
+            <c:if test="${message eq 'error'}">Sorry, something went wrong. <i class="fa-solid fa-face-frown"></i></c:if>
+            </div>
+
+            <!-- Custom scripts -->
+            <script src="<c:url value='/assets/scripts/users.js'/>"></script>
     </body>
 </html>
