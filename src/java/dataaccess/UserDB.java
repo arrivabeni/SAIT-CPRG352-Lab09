@@ -48,7 +48,7 @@ public class UserDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM user WHERE email=?";
+        String sql = "SELECT u.email, u.active, u.first_name, u.last_name, u.password, u.role, r.role_name FROM user u INNER JOIN role r ON r.role_id = u.role WHERE email=?";
 
         try {
             ps = con.prepareStatement(sql);
