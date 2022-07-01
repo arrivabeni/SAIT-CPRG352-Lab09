@@ -77,7 +77,7 @@ public class UserDB {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "INSERT INTO note (email, active, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (email, active, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             ps = con.prepareStatement(sql);
