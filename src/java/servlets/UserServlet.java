@@ -48,7 +48,7 @@ public class UserServlet extends HttpServlet {
 
         switch (action) {
             case "delete":
-                String email = request.getParameter("email");
+                String email = request.getParameter("email_post");
                 if (deleteUser(email, request)) {
                     request.setAttribute("message", "delete");
                 }

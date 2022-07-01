@@ -72,7 +72,7 @@
                                         <i class="fa-solid fa-trash-can fa-lg"></i>
                                     </button>
                                     <input type="hidden" name="action_post" value="delete">
-                                    <input type="hidden" name="email" value="${u.getEmail()}">
+                                    <input type="hidden" name="email_post" value="${u.getEmail()}">
                                 </form>
                             </td>
                         </tr>
@@ -80,7 +80,6 @@
                 </table>
                 <form id="deleteForm" method="POST" action="">
                     <input type="hidden" name="action_post" value="delete">
-                    <input type="hidden" name="emailToDelete" id="emailToDelete" value="">
                 </form>
             </div>
             <div>
