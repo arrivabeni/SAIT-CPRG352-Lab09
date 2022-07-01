@@ -42,7 +42,8 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
+        User user;
+        String action = request.getParameter("action_post");
         action = (action == null) ? "" : action;
 
         switch (action) {
@@ -50,6 +51,20 @@ public class UserServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 if (deleteUser(email, request)) {
                     request.setAttribute("message", "delete");
+                }
+                break;
+            case "edit":
+                user = getUserData(request);
+
+                if (isMandatoryDataProvided(user, request) && updateUser(user, request)) {
+                    request.setAttribute("message", "update");
+                }
+                break;
+            case "add":
+                user = getUserData(request);
+
+                if (isMandatoryDataProvided(user, request) && createUser(user, request)) {
+                    request.setAttribute("message", "create");
                 }
                 break;
             default:
@@ -107,5 +122,67 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("message", "error");
             return false;
         }
+    }
+
+    private boolean updateUser(User user, HttpServletRequest request) {
+        try {
+            UserService userService = new UserService();
+            userService.update(user.getEmail(), user.isActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole());
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "error");
+            return false;
+        }
+    }
+
+    private boolean createUser(User user, HttpServletRequest request) {
+        try {
+            UserService userService = new UserService();
+            userService.insert(user.getEmail(), user.isActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole());
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("message", "error");
+            return false;
+        }
+    }
+
+    private User getUserData(HttpServletRequest request) {
+        String email = request.getParameter("email_post");
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+        String password = request.getParameter("password");
+        int role = Integer.parseInt(request.getParameter("role"));
+        String activeStr = request.getParameter("active");
+        boolean active = activeStr == null ? false : !activeStr.isEmpty();
+        return new User(email, active, firstName, lastName, password, role, null);
+    }
+
+    private boolean isMandatoryDataProvided(User user, HttpServletRequest request) {
+
+        boolean validData = true;
+
+        if ((user.getEmail() == null || user.getEmail().isEmpty())) {
+            validData = false;
+        }
+
+        if (user.getLastName() == null || user.getLastName().isEmpty()) {
+            validData = false;
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            validData = false;
+        }
+
+        if (user.getRole() < 0) {
+            validData = false;
+        }
+
+        if (!validData) {
+            request.setAttribute("message", "error");
+        }
+
+        return validData;
     }
 }
