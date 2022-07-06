@@ -1,5 +1,6 @@
 package servlets;
 
+import dataaccess.RoleDB;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -127,7 +128,7 @@ public class UserServlet extends HttpServlet {
     private boolean updateUser(User user, HttpServletRequest request) {
         try {
             UserService userService = new UserService();
-            userService.update(user.getEmail(), user.isActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole());
+            userService.update(user.getEmail(), user.getActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole().getRoleId());
             return true;
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,7 +140,7 @@ public class UserServlet extends HttpServlet {
     private boolean createUser(User user, HttpServletRequest request) {
         try {
             UserService userService = new UserService();
-            userService.insert(user.getEmail(), user.isActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole());
+            userService.insert(user.getEmail(), user.getActive(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole().getRoleId());
             return true;
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,7 +157,16 @@ public class UserServlet extends HttpServlet {
         int role = Integer.parseInt(request.getParameter("role"));
         String activeStr = request.getParameter("active");
         boolean active = activeStr == null ? false : !activeStr.isEmpty();
-        return new User(email, active, firstName, lastName, password, role, null);
+        User user = new User(email, active, firstName, lastName, password);
+
+        try {
+            RoleDB roleDB = new RoleDB();
+            Role r = roleDB.get(role);
+            user.setRole(r);
+            return user;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private boolean isMandatoryDataProvided(User user, HttpServletRequest request) {
@@ -175,7 +185,7 @@ public class UserServlet extends HttpServlet {
             validData = false;
         }
 
-        if (user.getRole() < 0) {
+        if (user.getRole().getRoleId() < 0) {
             validData = false;
         }
 

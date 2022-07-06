@@ -52,9 +52,9 @@
                             <td>${u.getEmail()}</td>
                             <td>${u.getFirstName()}</td>
                             <td>${u.getLastName()}</td>
-                            <td>${u.getRoleName()}</td>
+                            <td>${u.getRole().getRoleName()}</td>
                             <td><i class='fa-solid <c:choose>
-                                       <c:when test="${u.isActive()}">fa-check</c:when>
+                                       <c:when test="${u.getActive()}">fa-check</c:when>
                                        <c:otherwise>fa-xmark</c:otherwise>
                                    </c:choose>'>
                                 </i></td>
@@ -93,12 +93,12 @@
 
                     <select name="role">
                         <c:forEach items="${roles}" var="role">
-                            <option value="${role.getRoleId()}" <c:if test="${user.getRole() == role.getRoleId()}">selected</c:if>>${role.getRoleName()}</option>
+                            <option value="${role.getRoleId()}" <c:if test="${user.getRole().getRoleId() == role.getRoleId()}">selected</c:if>>${role.getRoleName()}</option>
                         </c:forEach>
                     </select>
 
                     <div>
-                        <input type="checkbox" name="active" value="X" <c:if test="${user.isActive()}">checked</c:if>>
+                        <input type="checkbox" name="active" value="X" <c:if test="${user.getActive()}">checked</c:if>>
                             <label for="active">Active</label>
                         </div>
 
