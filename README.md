@@ -1,2 +1,2 @@
-# SAIT CPRG-352 - Lab 07  
-Topic: JSTL  
+# SAIT CPRG-352 - Lab 09  
+Topic: JPA  
